@@ -9,7 +9,6 @@ const dotenv = require("dotenv"); // Loads variables from .env file
 const cors = require("cors"); // Allows frontend (different origin) to make requests
 const PORT = process.env.PORT || 3000;
 const app = express();
-const User = require("./models/User");
 const connectDB = require("./config/connection-db");
 //Database Connection
 connectDB();
@@ -18,6 +17,8 @@ connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/api/auth', require('./routes/authRoutes'));
 
 //  Basic test route - to check if server is alive
 app.get("/", (req, res) => {

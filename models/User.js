@@ -33,7 +33,6 @@ userSchema.pre('save', async function () {
   try {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
-    next();
   } catch (err) {
     throw err; // Pass error to Mongoose  save will fail
   }
