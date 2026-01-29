@@ -9,9 +9,10 @@ const dotenv = require('dotenv'); // Loads variables from .env file
 const cors = require('cors') // Allows frontend (different origin) to make requests
 const PORT = process.env.PORT || 3000
 const app = express()
-
+const User = require('./models/User');
+const connectDB = require('./config/connection-db')
 //Database Connection
-//connectDB()
+connectDB()
 
 // Middleware
 
@@ -33,3 +34,4 @@ app.use(cors({
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
+console.log('User model loaded OK');
