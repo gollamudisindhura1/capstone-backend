@@ -1,39 +1,39 @@
 // server.js - Main entry point of our backend application
 
-//1. Importing required packages
-// 2. Load environment variables from .env file
-require("dotenv").config();
-const express = require("express"); // Web framework for Node.js
-const mongoose = require("mongoose"); // ODM to work with MongoDB easily
-const dotenv = require("dotenv"); // Loads variables from .env file
-const cors = require("cors"); // Allows frontend (different origin) to make requests
-const PORT = process.env.PORT || 3000;
+// 1. Import required packages
+require('dotenv').config();           // Load .env variables FIRST
+const express = require('express');   // Web framework
+const cors = require('cors');         // Cross-origin requests
+const connectDB = require('./config/connection-db'); // Your DB connection file
+
 const app = express();
-const connectDB = require("./config/connection-db");
-//Database Connection
-connectDB();
 
-// Middleware
+// 2. Set port
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// 3. Middleware - IMPORTANT: parsers FIRST, before routes
+app.use(express.json());              // Parse JSON bodies → this fixes req.body undefined!
+app.use(express.urlencoded({ extended: true })); // Optional: parse form data
 
-app.use('/api/auth', require('./routes/authRoutes'));
+// 4. CORS - allow frontend to connect (use * for dev, change to specific URL later)
+app.use(cors({
+  origin: '*',                        // For development only
+  credentials: true
+}));
 
-//  Basic test route - to check if server is alive
-app.get("/", (req, res) => {
-  res.json({ message: "Pro-Tasker Backend is running!" });
+// 5. Connect to MongoDB
+connectDB();                          // Your DB connection function
+
+// 6. Routes - mount AFTER middleware
+app.use('/api/auth', require('./routes/authRoutes'));    // Auth routes (register/login)
+app.use('/api/projects', require('./routes/projects'));  // Protected project routes
+
+// 7. Basic health check route
+app.get('/', (req, res) => {
+  res.json({ message: 'Pro-Tasker Backend is running!' });
 });
 
-// Enable CORS so React frontend (localhost:5173 or deployed) can talk to backend
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  }),
-);
-
-//  Start the server
+// 8. Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
