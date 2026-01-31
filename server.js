@@ -26,7 +26,8 @@ connectDB();                          // Your DB connection function
 
 // 6. Routes - mount AFTER middleware
 app.use('/api/auth', require('./routes/authRoutes'));    // Auth routes (register/login)
-app.use('/api/projects', require('./routes/projects'));  // Protected project routes
+app.use('/api/projects', require('./routes/projectRoutes'));  // Protected project routes
+app.use('/api/projects/:projectId/tasks', require('./routes/taskRoutes'));
 
 // 7. Basic health check route
 app.get('/', (req, res) => {
