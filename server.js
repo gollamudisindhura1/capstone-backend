@@ -17,8 +17,10 @@ app.use(express.urlencoded({ extended: true })); // Optional: parse form data
 
 // 4. CORS - allow frontend to connect (use * for dev, change to specific URL later)
 app.use(cors({
-  origin: '*',                        // For development only
-  credentials: true
+  origin: 'http://localhost:5173',                        
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // 5. Connect to MongoDB
