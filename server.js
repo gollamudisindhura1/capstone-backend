@@ -1,21 +1,21 @@
-// server.js - Main entry point of our backend application
-
 // 1. Import required packages
-require('dotenv').config();           // Load .env variables FIRST
-const express = require('express');   // Web framework
-const cors = require('cors');         // Cross-origin requests
-const connectDB = require('./config/connection-db'); // Your DB connection file
-
+require('dotenv').config();           
+const express = require('express');   
+const cors = require('cors');         
+const connectDB = require('./config/connection-db'); 
 const app = express();
+const morgan = require('morgan');
 
 // 2. Set port
 const PORT = process.env.PORT || 3000;
 
-// 3. Middleware - IMPORTANT: parsers FIRST, before routes
-app.use(express.json());              // Parse JSON bodies → this fixes req.body undefined!
-app.use(express.urlencoded({ extended: true })); // Optional: parse form data
+// 3. Middleware
+app.use(express.json());              
+app.use(express.urlencoded({ extended: true })); 
 
-// 4. CORS - allow frontend to connect (use * for dev, change to specific URL later)
+app.use(morgan('dev'));
+
+// 4. CORS - allow frontend to connect 
 app.use(cors({
   origin: 'http://localhost:5173',                        
   credentials: true,
@@ -24,16 +24,23 @@ app.use(cors({
 }));
 
 // 5. Connect to MongoDB
-connectDB();                          // Your DB connection function
-
-// 6. Routes - mount AFTER middleware
-app.use('/api/auth', require('./routes/authRoutes'));    // Auth routes (register/login)
-app.use('/api/projects', require('./routes/projectRoutes'));  // Protected project routes
+connectDB();                          
+// 6. Routes 
+app.use('/api/auth', require('./routes/authRoutes'));    
+app.use('/api/projects', require('./routes/projectRoutes'));  
 app.use('/api/projects/:projectId/tasks', require('./routes/taskRoutes'));
 
 // 7. Basic health check route
 app.get('/', (req, res) => {
   res.json({ message: 'Pro-Tasker Backend is running!' });
+});
+//Adding Global error handler 
+app.use((err, req, res, next) => {
+  console.error(err.stack);  // Log full error
+  res.status(500).json({
+    message: 'Something went wrong on the server',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined,
+  });
 });
 
 // 8. Start the server

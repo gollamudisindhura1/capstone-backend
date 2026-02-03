@@ -1,7 +1,5 @@
-// Nested task routes under /api/projects/:projectId/tasks
-
 const express = require('express');
-const router = express.Router({ mergeParams: true }); // mergeParams lets us access :projectId
+const router = express.Router({ mergeParams: true }); 
 
 const auth = require('../middleware/auth');
 const {

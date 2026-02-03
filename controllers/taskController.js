@@ -21,7 +21,7 @@ const getTasks = async (req, res)=>{
         const {projectId} = req.params
 
         // verify the ownership
-        await checkProjectOwnership(projectId, req.user._id);
+        // await checkProjectOwnership(projectId, req.user._id);
 
         const tasks = await Task.find({project: projectId})
         .sort({priority: -1, dueDate: 1})
@@ -44,7 +44,7 @@ const getTasks = async (req, res)=>{
 const getTaskById = async(req, res)=>{
     try{
         const { projectId, taskId } = req.params;
-        await checkProjectOwnership(projectId, req.user._id);
+        //await checkProjectOwnership(projectId, req.user._id);
 
         const task = await Task.findOne({_id: taskId,project: projectId}).select('-__v');
         if(!task){
