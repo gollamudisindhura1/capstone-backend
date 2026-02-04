@@ -16,7 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // 4. CORS - allow frontend to connect 
 app.use(cors({
-  origin: 'https://pro-tasker-capstone-frontend.onrender.com',                        
+  origin: [
+    'https://pro-tasker-capstone-frontend.onrender.com',        
+    'http://localhost:5173'                             
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
