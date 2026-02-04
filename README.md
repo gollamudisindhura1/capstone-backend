@@ -69,3 +69,20 @@ https://www.npmjs.com/package/bcryptjs
 (Simple, no native C++ deps — good choice)
 5. CORS Middleware
 https://expressjs.com/en/resources/middleware/cors.html
+
+## Installation
+1. Clone the repository:
+- git clone
+
+2. Navigate into the project folder:
+- cd backend
+
+3. Install dependencies:
+- npm install
+
+4. Create a .env file in /server and add:
+- PORT=3000 
+- MONGODB_URI= 
+- JWT_SECRET=
+
+5. Run the backend server: nodemon server
