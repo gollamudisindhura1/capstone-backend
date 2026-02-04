@@ -1,6 +1,7 @@
 // Handles CRUD operations for Projects with ownership enforcement
 
 const Project = require('../models/Project');
+const Task = require('../models/Task')
 
 // 1. GET all projects for the logged-in user (owner only)
 const getProjects = async (req, res) => {
@@ -103,8 +104,7 @@ const deleteProject = async (req, res) => {
       return res.status(404).json({ message: 'Project not found or you do not own it' });
     }
 
-    // Optional: Delete associated tasks later (we'll add when doing tasks)
-    // await Task.deleteMany({ project: project._id });
+     await Task.deleteMany({ project: req.params.id });
 
     res.json({ message: 'Project deleted successfully' });
   } catch (error) {
