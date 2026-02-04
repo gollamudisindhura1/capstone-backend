@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');         
 const connectDB = require('./config/connection-db'); 
 const app = express();
-const morgan = require('morgan');
+//const morgan = require('morgan');
 
 // 2. Set port
 const PORT = process.env.PORT || 3000;
@@ -13,7 +13,6 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());              
 app.use(express.urlencoded({ extended: true })); 
 
-app.use(morgan('dev'));
 
 // 4. CORS - allow frontend to connect 
 app.use(cors({

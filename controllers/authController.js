@@ -7,11 +7,20 @@ const jwt = require('jsonwebtoken');
 // REGISTER: Create a new user
 const register = async (req, res) => {
   try {
-    const { email, password, firstName, LastName } = req.body;
+    const { email, password, firstName, lastName } = req.body;
+
+    console.log('Received registration data:', req.body);
 
     // Input validation
-    if (!email || !password || !firstName || !LastName) {
+    if (!email || !password || !firstName || !lastName) {
       return res.status(400).json({ message: 'Email, password, first name, last name are required!' });
+    }
+
+    const trimmedFirst = firstName.trim();
+    const trimmedLast = lastName.trim();
+
+    if (trimmedFirst.length < 2 || trimmedLast.length < 2) {
+      return res.status(400).json({ message: 'First and last name must be at least 2 characters' });
     }
 
     // Check if the user already exists
@@ -21,7 +30,12 @@ const register = async (req, res) => {
     }
 
     // Create new user (password will be auto-hashed by pre-save hook)
-    const user = new User({ email, password, firstName, lastName });
+    const user = new User({
+       email, 
+       password, 
+       firstName: trimmedFirst, 
+       lastName: trimmedLast 
+      });
     await user.save();
 
     // Generate JWT token
