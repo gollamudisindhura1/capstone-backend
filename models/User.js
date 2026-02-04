@@ -19,6 +19,20 @@ const userSchema = new Schema({
         required: true,
         minlength: [6,'Password must be at least 6 characters']
     },
+    firstName: {
+    type: String,
+    required: [true, 'First name is required'],
+    trim: true,
+    minlength: [2, 'First name must be at least 2 characters'],
+    maxlength: [50]
+  },
+  lastName: {
+    type: String,
+    required: [true, 'Last name is required'],
+    trim: true,
+    minlength: [2, 'Last name must be at least 2 characters'],
+    maxlength: [50]
+  },
    // Timestamps: automatically adds createdAt and updatedAt fields
 }, {
   timestamps: true
