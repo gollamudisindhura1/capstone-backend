@@ -7,11 +7,11 @@ const jwt = require('jsonwebtoken');
 // REGISTER: Create a new user
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, firstName, LastName } = req.body;
 
     // Input validation
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required!' });
+    if (!email || !password || !firstName || !LastName) {
+      return res.status(400).json({ message: 'Email, password, first name, last name are required!' });
     }
 
     // Check if the user already exists
@@ -21,7 +21,7 @@ const register = async (req, res) => {
     }
 
     // Create new user (password will be auto-hashed by pre-save hook)
-    const user = new User({ email, password });
+    const user = new User({ email, password, firstName, lastName });
     await user.save();
 
     // Generate JWT token
@@ -33,7 +33,9 @@ const register = async (req, res) => {
       token,
       user: {
         id: user._id,
-        email: user.email
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
       }
     });
   } catch (error) {
@@ -73,12 +75,14 @@ const login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        email: user.email
+        email: user.email,
+        firstName: user.firstName,
+    lastName: user.lastName
       }
     });
   } catch (error) {
     console.error('Login Error:', error);
-    res.status(500).json({ message: 'Server error during login' }); // fixed message
+    res.status(500).json({ message: 'Server error during login' }); 
   }
 };
 
