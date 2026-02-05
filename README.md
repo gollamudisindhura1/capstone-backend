@@ -73,21 +73,22 @@ This backend handles:
 - npm install
 
 3. Create .env file in root:
-    PORT=3000
-    MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/protasker?retryWrites=true&w=majority
-    JWT_SECRET=your-super-secret-key-here
+    - PORT=3000
+    - MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/protasker?retryWrites=true&w=majority
+    - JWT_SECRET=your-super-secret-key-here
+    - NODE_ENV=production
 
 4. Run the server:
     npm run dev   # or nodemon server.js
 
     Deployment
 
-Deployed as Web Service on Render
-Live API: https://pro-tasker-capstone-backend.onrender.com
-Environment variables set on Render:
-MONGODB_URI (Atlas connection string)
-JWT_SECRET
-PORT = 10000 (optional – Render auto-assigns)
+5. Deployed as Web Service on Render
+      - Live API: https://pro-tasker-capstone-backend.onrender.com
+      - Environment variables set on Render:
+      - MONGODB_URI (Atlas connection string)
+      - JWT_SECRET
+      - PORT = 3000 (optional – Render auto-assigns)
 
 
 ## Challenges & Learnings
