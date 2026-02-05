@@ -2,35 +2,35 @@
 
 ## Overview
 
-Backend API for Pro-Tasker this is a full-stack task management application built as a Per Scholas capstone project (2026).
+Backend API for **Pro-Tasker** — a full-stack task management application built as a Per Scholas capstone project (2026).  
 
 This backend handles:
-- User registration & login (JWT authentication)
-- Project CRUD operations
-- Task CRUD operations (with time tracking & priority/status)
-- Secure routes for authenticated users only
+- Secure user registration & login (JWT authentication)
+- Project & task CRUD operations
+- Nested task routes under projects
+- Protected endpoints (only authenticated users can access)
 
-Live API:  
-Frontend: 
+**Live API (Backend):** https://pro-tasker-capstone-backend.onrender.com  
+**Live Frontend:** https://pro-tasker-capstone-frontend.onrender.com  
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js">
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express">
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
+  <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=jsonwebtokens&logoColor=white" alt="JWT">
+  <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white" alt="Render">
+</p>
 
 ## Features
 
 - **JWT Authentication** (register, login, protected routes)
-- **User Model**: email, hashed password, firstName, lastName
-- **Project Model**: title, description, owner (user), createdAt
-- **Task Model**: title, description, status (To Do / In Progress / Done), priority (Low / Medium / High), dueDate, startTime, endTime
+- **User Model**: email, hashed password (bcrypt), firstName, lastName
+- **Project Model**: title, description, owner (user ref), createdAt
+- **Task Model**: title, description, status (To Do / In Progress / Done), priority (Low / Medium / High), dueDate, startTime, endTime, project ref
 - Full **CRUD** for projects and tasks
-- Tasks belong to projects (nested routes: `/projects/:id/tasks`)
-- Secure password hashing with bcrypt
-
-## Tech Stack
-
-- Node.js + Express
-- MongoDB + Mongoose (database)
-- JWT (jsonwebtoken) for auth tokens
-- bcryptjs (password hashing)
-- CORS (cross-origin requests)
-- dotenv (environment variables)
+- Nested routes: `/projects/:id/tasks`
+- Secure password hashing with bcryptjs
+- CORS configured for frontend
 
 ## API Endpoints Overview
 
@@ -53,7 +53,58 @@ Frontend:
 - `PUT /api/projects/:projectId/tasks/:taskId` → update task (supports drag-and-drop time changes)
 - `DELETE /api/projects/:projectId/tasks/:taskId` → delete task
 
-All protected routes return 401 if no valid token.
+## Tech Stack
+
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT (jsonwebtoken) for auth tokens
+- bcryptjs for password hashing
+- CORS middleware
+- dotenv for environment variables
+- Deployed on Render (Web Service)
+
+## Installation (Local Development)
+
+1. Clone the repository:
+   git clone <your-repo-url>
+   cd backend
+
+2. Install dependencies:
+- npm install
+
+3. Create .env file in root:
+    PORT=3000
+    MONGODB_URI=mongodb+srv://<user>:<password>@cluster0.mongodb.net/protasker?retryWrites=true&w=majority
+    JWT_SECRET=your-super-secret-key-here
+
+4. Run the server:
+    npm run dev   # or nodemon server.js
+
+    Deployment
+
+Deployed as Web Service on Render
+Live API: https://pro-tasker-capstone-backend.onrender.com
+Environment variables set on Render:
+MONGODB_URI (Atlas connection string)
+JWT_SECRET
+PORT = 10000 (optional – Render auto-assigns)
+
+
+## Challenges & Learnings
+
+- Configuring CORS correctly for Render frontend domain
+- Securing routes with JWT middleware
+- Nested routes for tasks (/projects/:id/tasks)
+- Environment variables injection on Render
+- Debugging "Unexpected end of JSON input" (caused by missing CORS origin)
+
+## Future Plans
+
+- Task comments & attachments
+- Real-time updates (Socket.io)
+- Email notifications for due tasks
+- Role-based access (admin/user)
+- Task analytics & reports
 
 ## Resources
 
@@ -70,19 +121,3 @@ https://www.npmjs.com/package/bcryptjs
 5. CORS Middleware
 https://expressjs.com/en/resources/middleware/cors.html
 
-## Installation
-1. Clone the repository:
-- git clone
-
-2. Navigate into the project folder:
-- cd backend
-
-3. Install dependencies:
-- npm install
-
-4. Create a .env file in /server and add:
-- PORT=3000 
-- MONGODB_URI= 
-- JWT_SECRET=
-
-5. Run the backend server: nodemon server
